@@ -1,0 +1,85 @@
+
+
+<%= image_tag(@art.art_image, width: 600) %>
+<br>
+<%= @art.name %>
+<br>
+<%= @art.author %>
+
+<% if @responseexist == 0 %>
+
+    <div id="map">
+    </div>
+
+    <%= simple_form_for [ @response ] do |f| %>
+    <%= f.input :latitude, as: :decimal %>
+    <%= f.input :longitude, as: :decimal %>
+    <%= f.input :art_id, as: :integer, input_html: { value: @art.id }, as: :hidden %>
+    <%= f.input :serie_id, as: :integer, input_html: { value: @serie.id }, as: :hidden %>
+    <%= f.submit "Guess!", class: 'btn btn-primary guess-btn mb-4' %>
+    <% end %>
+
+<% end %>
+
+<% if @responseexist == 1 %>
+    <br>
+    <%= @response.score %>
+        <% if @next == nil %>
+            <%= link_to "Finish series!", series_path(@serie) %>
+        <% else %>
+            <%= link_to "Next artwork", art_path(:action => "show", :id => @next.id, :serie => @serie.id) %> 
+        <% end %>
+<% end %>
+
+<script>
+let markers = [];
+
+function setMapOnAll(map) {
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+};
+
+function initMap(lat, lng, zoom) {
+    map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: lat, lng: lng},
+    zoom: zoom,
+    gestureHandling: "greedy", 
+    setOptions: ({draggable: true}),
+    });
+    
+    map.addListener("click", (e) => {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        };
+        markers = [];
+        addMarker(e.latLng),
+        lat_input = document.querySelector("#response_latitude");
+        lng_input = document.querySelector("#response_longitude");
+        lat_input.value = markers[0].getPosition().lat();
+        lng_input.value = markers[0].getPosition().lng();
+        console.log(markers[0].getPosition().lat());
+        console.log(markers[0].getPosition().lng());
+    });   
+};
+
+function addMarker(location) {
+    const marker = new google.maps.Marker({
+        position: location,
+        map: map,
+    });
+    markers.push(marker),
+    map.panTo(location);
+};
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['MAPS_KEY']%>&callback=initMap&libraries=&v=weekly"
+    defer
+></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    initMap(<%=@artserie.serie.latitude%>,<%=@artserie.serie.longitude%>, <%=@artserie.serie.zoom%> )
+});
+</script>

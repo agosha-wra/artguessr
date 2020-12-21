@@ -1,0 +1,6 @@
+<%= @serie.name %>
+<%= @serie.description %>
+
+<%= link_to "Play this series!", art_path(:action => "show", :id => @arts[0].id, :serie => @serie.id) %>
+
+
