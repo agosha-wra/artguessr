@@ -21,6 +21,10 @@ class ArtsController < ApplicationController
       @response = Response.new 
     end 
 
+    if @next == nil 
+      @users_serie = UsersSerie.new
+    end 
+
   end
 
 end

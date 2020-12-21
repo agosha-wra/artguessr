@@ -2,6 +2,15 @@
 
 <% @series.each do |serie| %>
 <%= image_tag(serie.image, width: 200) %>
-<%= link_to serie.name, series_path(serie) %>
+<br>
+
+<% if @users_series.find {|users_serie| users_serie.serie_id = serie.id} != nil %>
+    <%= serie.name %>
+    <div>Your score: <%= @users_series.find {|users_serie| users_serie.serie_id = serie.id}.score %></div>
+    <%= link_to "Details", users_series_path(:action => "show", :id => @users_series.find {|users_serie| users_serie.serie_id = serie.id}.id)%>
+<% else %>
+    <%= link_to "Play #{serie.name}", series_path(serie) %>
+<% end %>
+<br>
 <%= serie.description %>
 <% end %>

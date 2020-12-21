@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "series#index"
   resources :series
-  resources :arts 
+  resources :arts
   resources :responses
+  resources :users_series
+  post "users_series/:id/" => "users_series#create"
 end

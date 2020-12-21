@@ -21,6 +21,7 @@ class ResponsesController < ApplicationController
     end 
 
     @response.arts_serie = @artsserie
+    @response.serie_id = @artsserie.serie.id
     @response.score = score.to_i
     @response.user = current_user 
     @response.art = @art

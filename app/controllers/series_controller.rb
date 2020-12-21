@@ -1,6 +1,7 @@
 class SeriesController < ApplicationController
   def index
     @series = Serie.all
+    @users_series = UsersSerie.where(user_id: current_user.id)
   end
 
   def show 
@@ -10,6 +11,7 @@ class SeriesController < ApplicationController
     @arts_series.each do |as|
       @arts << as.art
     end 
+    @users_serie = UsersSerie.where(user_id: current_user.id, serie_id: @serie.id)
   end 
 
 end

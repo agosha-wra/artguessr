@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_112833) do
+ActiveRecord::Schema.define(version: 2020_12_21_120003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,8 +64,10 @@ ActiveRecord::Schema.define(version: 2020_12_16_112833) do
     t.decimal "latitude"
     t.decimal "longitude"
     t.bigint "arts_serie_id", null: false
+    t.bigint "serie_id", null: false
     t.index ["art_id"], name: "index_responses_on_art_id"
     t.index ["arts_serie_id"], name: "index_responses_on_arts_serie_id"
+    t.index ["serie_id"], name: "index_responses_on_serie_id"
     t.index ["user_id"], name: "index_responses_on_user_id"
   end
 
@@ -106,6 +108,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_112833) do
   add_foreign_key "arts_series", "series", column: "serie_id"
   add_foreign_key "responses", "arts"
   add_foreign_key "responses", "arts_series", column: "arts_serie_id"
+  add_foreign_key "responses", "series", column: "serie_id"
   add_foreign_key "responses", "users"
   add_foreign_key "users_series", "series", column: "serie_id"
   add_foreign_key "users_series", "users"
