@@ -4,7 +4,8 @@
 <%= image_tag(serie.image, width: 200) %>
 <br>
 
-<% if @users_series.find {|users_serie| users_serie.serie_id = serie.id} != nil %>
+
+<% if @users_series != nil && @users_series.find {|users_serie| users_serie.serie_id = serie.id} %>
     <%= serie.name %>
     <div>Your score: <%= @users_series.find {|users_serie| users_serie.serie_id = serie.id}.score %></div>
     <%= link_to "Details", users_series_path(:action => "show", :id => @users_series.find {|users_serie| users_serie.serie_id = serie.id}.id)%>
@@ -14,3 +15,4 @@
 <br>
 <%= serie.description %>
 <% end %>
+

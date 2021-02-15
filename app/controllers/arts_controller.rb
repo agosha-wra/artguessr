@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 class ArtsController < ApplicationController
-  
   def show
     @art = Art.find(params[:id])
     @serie = Serie.find(params[:serie])
@@ -9,22 +10,18 @@ class ArtsController < ApplicationController
     @arts = []
     @arts_series.each do |as|
       @arts << as.art
-    end 
+    end
 
     @index = @arts.index(@art)
     @next = @arts[@arts.index(@art).to_i + 1]
 
-    @responseexist = Response.where(user_id: current_user.id, art_id: @art.id).size
-    if Response.where(user_id: current_user.id, art_id: @art.id).length > 0 
-      @response = Response.where(user_id: current_user.id, art_id: @art.id)[0]
-    else
-      @response = Response.new 
-    end 
+    @responseexist = Response.where(user_id: current_user.id, art_id: @art.id, serie_id: @serie.id).size
+    @response = if Response.where(user_id: current_user.id, art_id: @art.id, serie_id: @serie.id).length.positive?
+                  Response.where(user_id: current_user.id, art_id: @art.id, serie_id: @serie.id)[0]
+                else
+                  Response.new
+                end
 
-    if @next == nil 
-      @users_serie = UsersSerie.new
-    end 
-
+    @users_serie = UsersSerie.new if @next.nil?
   end
-
 end

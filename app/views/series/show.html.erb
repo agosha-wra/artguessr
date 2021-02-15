@@ -1,7 +1,7 @@
 <%= @serie.name %>
 <%= @serie.description %>
 
-<% if @users_serie.count > 0 %>
+<% if @users_serie != nil && @users_serie.length > 0 %>
     <div>Your score: <%= @users_serie.first.score %></div>
     <%= link_to "Details", users_series_path(:action => "show", :id => @users_serie.first.id)%>
 <% else %>

@@ -75,7 +75,8 @@
 
 <% if @responseexist == 1 %>
     <br>
-    <%= @response.score %>
+    <%= "score: #{@response.score}" %>
+    <%= "distance: #{@response.distance}" %>
         <% if @next == nil %>
             <%= simple_form_for [ @users_serie ] do |f| %>
                 <%= f.input :user_id, as: :integer, input_html: { value: current_user.id }, as: :hidden %>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLocationToArts < ActiveRecord::Migration[6.0]
   def change
     add_column :arts, :latitude, :float
